@@ -1,2 +1,4 @@
 hytff
 yfdtrrfrt
+learn microsoft.com api design react.dev --thinking-in-react
+aws digita ocean for back end hosting.. static webpage not dynamic 
