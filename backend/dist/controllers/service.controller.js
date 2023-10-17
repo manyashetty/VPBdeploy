@@ -74,11 +74,7 @@ const deleteService = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         // Delete the service using deleteOne
         yield service_model_js_1.default.deleteOne({ _id: serviceId });
-<<<<<<< HEAD
         res.status(204).json({ message: "Servicedeleted" }); // deleted
-=======
-        res.status(204).json(deletedService); // deleted
->>>>>>> 9ddbb0f961b3ee54e6f66ca4eaac085f97c530f7
     }
     catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
