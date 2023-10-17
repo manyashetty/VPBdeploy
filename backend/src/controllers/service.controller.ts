@@ -66,7 +66,7 @@ export const deleteService = async (req: Request, res: Response) => {
     // Delete the service using deleteOne
     await ServiceModel.deleteOne({ _id: serviceId });
 
-    res.status(204).json(); // No Content
+    res.status(204).json(deletedService); // deleted
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
