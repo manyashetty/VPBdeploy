@@ -60,7 +60,6 @@ const updateService = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(200).json(updatedService);
     }
     catch (error) {
-        console.log(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -75,7 +74,7 @@ const deleteService = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         // Delete the service using deleteOne
         yield service_model_js_1.default.deleteOne({ _id: serviceId });
-        res.status(204).json(); // No Content
+        res.status(204).json({ message: "Servicedeleted" }); // deleted
     }
     catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
