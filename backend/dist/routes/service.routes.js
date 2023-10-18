@@ -2,9 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const service_controller_1 = require("../controllers/service.controller");
+const social_feed_controller_1 = require("../controllers/social-feed.controller");
 const router = (0, express_1.Router)();
 router.get('/services', service_controller_1.getServices);
 router.post('/services', service_controller_1.createService);
 router.put('/services/:id', service_controller_1.updateService);
 router.delete('/services/:id', service_controller_1.deleteService);
+router.get('/social-feed', social_feed_controller_1.getSocialfeed);
+router.post('/social-feed', social_feed_controller_1.createSocialfeed);
+router.put('/social-feed/:id', social_feed_controller_1.updateSocialfeed);
+router.delete('/social-feed/:id', social_feed_controller_1.deleteSocialfeed);
 exports.default = router;
