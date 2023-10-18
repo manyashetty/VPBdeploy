@@ -5,6 +5,6 @@ const service_controller_1 = require("../controllers/service.controller");
 const router = (0, express_1.Router)();
 router.get('/services', service_controller_1.getServices);
 router.post('/services', service_controller_1.createService);
-router.put('/services/_id', service_controller_1.updateService);
-router.delete('/services/_id', service_controller_1.deleteService);
+router.put('/services/:id', service_controller_1.updateService);
+router.delete('/services/:id', service_controller_1.deleteService);
 exports.default = router;

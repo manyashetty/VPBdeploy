@@ -48,7 +48,7 @@ export const updateService = async (req: Request, res: Response) => {
     const updatedService = await existingService.save();
     res.status(200).json(updatedService);
   } catch (error) {
-    
+    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -68,6 +68,7 @@ export const deleteService = async (req: Request, res: Response) => {
 
     res.status(204).json({message:"Servicedeleted"}); // deleted
   } catch (error) {
+    
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
