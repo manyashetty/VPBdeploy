@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import TestimonialModel from '../models/testimonial.model.js';
 
-export const getServices = async (req: Request, res: Response) => {
+export const getTestimonial = async (req: Request, res: Response) => {
   try {
     const testimonial = await TestimonialModel.find();
     res.status(200).json(testimonial);

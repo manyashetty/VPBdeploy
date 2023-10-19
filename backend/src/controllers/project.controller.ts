@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import ProjectModel from '../models/project.model.js';
+import UserModel, { IUser } from '../models/user.model'; 
+import { CustomRequest } from '../routes/auth.middleware'; 
 
 export const getProject = async (req: Request, res: Response) => {
   try {
@@ -10,17 +12,33 @@ export const getProject = async (req: Request, res: Response) => {
   }
 };
 
-export const createProject = async (req: Request, res: Response) => {
+export const createProject = async (req: CustomRequest, res: Response) => {
+      const user = req.user as IUser;
   const { title, description, image_url } = req.body;
+  
+  if (!user || !user._id) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+
   if (!title || !description || !image_url) {
     return res.status(400).json({ error: 'Title ,description and image_url are required' });
   }
 
   try {
-    const project = new ProjectModel({ title, description, image_url});
+    const project = new ProjectModel({ title, description, image_url, user: user._id});
+
+
+
+
+    if (user) {
+      project.user = user;
+    }
+
     await project.save();
     res.status(201).json(project);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
