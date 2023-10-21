@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import TestimonialModel from '../models/testimonial.model.js';
+import { CustomRequest } from '../routes/auth.middleware'; 
+import { authenticateJWT } from '../routes/auth.middleware.js'; 
 
 export const getTestimonial = async (req: Request, res: Response) => {
   try {
@@ -10,7 +12,7 @@ export const getTestimonial = async (req: Request, res: Response) => {
   }
 };
 
-export const createTestimonial = async (req: Request, res: Response) => {
+export const createTestimonial =  [authenticateJWT, async (req: CustomRequest, res: Response) => {
   const { name, comment, image_url } = req.body;
   if (!name || !comment ||!image_url) {
     return res.status(400).json({ error: 'Name ,description and image_url are required' });
@@ -23,9 +25,10 @@ export const createTestimonial = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+},
+];
 
-export const updateTestimonial = async (req: Request, res: Response) => {
+export const updateTestimonial = [authenticateJWT, async (req: CustomRequest, res: Response) => {
   try {
     const TestimonialId = req.params.id;
     const { name, comment, image_url } = req.body;
@@ -55,7 +58,8 @@ export const updateTestimonial = async (req: Request, res: Response) => {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+},
+];
 
 export const deleteTestimonial = async (req: Request, res: Response) => {
   try {

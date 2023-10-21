@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import ServiceModel from '../models/service.model.js';
+import { CustomRequest } from '../routes/auth.middleware'; 
+import { authenticateJWT } from '../routes/auth.middleware.js'; 
 
 export const getServices = async (req: Request, res: Response) => {
   try {
@@ -10,7 +12,7 @@ export const getServices = async (req: Request, res: Response) => {
   }
 };
 
-export const createService = async (req: Request, res: Response) => {
+export const createService = [ authenticateJWT, async (req: Request, res: Response) => {
   const { name, description } = req.body;
   if (!name || !description) {
     return res.status(400).json({ error: 'Name and description are required' });
@@ -23,9 +25,10 @@ export const createService = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+},
+];
 
-export const updateService = async (req: Request, res: Response) => {
+export const updateService =[ authenticateJWT, async (req: Request, res: Response) => {
   try {
     const serviceId = req.params.id;
     const { name, description } = req.body;
@@ -51,9 +54,10 @@ export const updateService = async (req: Request, res: Response) => {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+},
+];
 
-export const deleteService = async (req: Request, res: Response) => {
+export const deleteService =[authenticateJWT, async (req: Request, res: Response) => {
   try {
     const serviceId = req.params.id;
 
@@ -71,4 +75,5 @@ export const deleteService = async (req: Request, res: Response) => {
     
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+},
+];

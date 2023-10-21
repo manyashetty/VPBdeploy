@@ -1,0 +1,411 @@
+//project.controller.ts
+import { Request, Response } from 'express';
+import ProjectModel from '../models/project.model.js';
+import UserModel, { IUser } from '../models/user.model'; 
+import { CustomRequest } from '../routes/auth.middleware'; 
+import { authenticateJWT } from '../routes/auth.middleware.js'; 
+
+export const getProject = async (req: Request, res: Response) => {
+  try {
+    const project = await ProjectModel.find();
+    res.status(200).json(project);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const createProject =[authenticateJWT, async (req: CustomRequest, res: Response) => {
+      const user = req.user as IUser;
+  const { title, description, image_url } = req.body;
+  
+  if (!user || !user._id){
+    console.log("unauthorized for project")
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+
+  if (!title || !description || !image_url) {
+    return res.status(400).json({ error: 'Title ,description and image_url are required' });
+  }
+
+  try {
+    const project = new ProjectModel({ title, description, image_url, user: user._id});
+
+
+
+
+    if (user) {
+      project.user = user;
+    }
+
+    await project.save();
+    res.status(201).json(project);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+},
+];
+
+export const updateProject = async (req: Request, res: Response) => {
+  try {
+    const projectId = req.params.id;
+    const { title, description, image_url } = req.body;
+
+    // Check if the service exists
+    const existingProject = await ProjectModel.findById(projectId);
+    if (!existingProject) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    // Update the service
+    if (title) {
+      existingProject.title = title;
+    }
+    if (description) {
+      existingProject.description = description;
+    }
+    if (image_url){
+        existingProject.image_url = image_url
+    }
+
+    // Save the updated service
+    const updatedProject = await existingProject.save();
+    res.status(200).json(updatedProject);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const deleteProject = async (req: Request, res: Response) => {
+  try {
+    const projectId = req.params.id;
+
+    // Check if the service exists
+    const existingProject = await ProjectModel.findById(projectId);
+    if (!existingProject) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    // Delete the service using deleteOne
+    await ProjectModel.deleteOne({ _id: projectId });
+
+    res.status(204).json({message:"Projectdeleted"}); // deleted
+  } catch (error) {
+    
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+
+
+//project.model.ts:
+import { Schema, Document, model, Types } from 'mongoose';
+import { IUser } from './user.model'; 
+
+interface IProject extends Document {
+  title: string;
+  description: string;
+  image_url:string;
+  user: IUser['_id']; 
+}
+
+const ProjectSchema = new Schema<IProject>({
+  title: String,
+  description: String,
+  image_url:String,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User', 
+  }, 
+});
+
+const ProjectModel = model<IProject>('Project', ProjectSchema);
+
+export default ProjectModel;
+
+
+
+
+//user.controller.ts:
+
+
+import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import UserModel from '../models/user.model';
+require('dotenv').config();
+
+// const SECRET_KEY = '93f7523c148399e7d4db227e35ef5386130a135fe8f38018b99d44eae546138e5e2f98d2a475d28d37a32edcc1d06485c83dac6c6b30b81e7300a418f9de9447';
+const SECRET_KEY = process.env.SECRET_KEY;
+const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
+
+export const registerUser = async (req: Request, res: Response) => {
+  try {
+    const { username, email, password } = req.body; 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new UserModel({
+      username,
+      email, 
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    if (!SECRET_KEY || !REFRESH_SECRET_KEY) {
+      console.error('Missing secret keys. Please check your environment variables.');
+    } else {
+    
+    const payload = {
+      userId: user._id,
+    };
+
+
+    const accessToken = jwt.sign(payload, SECRET_KEY as jwt.Secret, { expiresIn: '45m' });
+    const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY as jwt.Secret, { expiresIn: '7d' });
+    
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none' as 'none',
+    });
+  
+    res.status(200).json({ accessToken, refreshToken });
+  }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+
+
+//user.model.ts:
+
+import mongoose, { Schema, Document } from 'mongoose';
+
+export interface IUser extends Document {
+  username: string;
+  email: string; 
+  password: string;
+}
+
+const UserSchema = new Schema<IUser>({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true 
+  },
+  password: { 
+    type: String, 
+    required: true 
+  },
+});
+
+export default mongoose.model<IUser>('User', UserSchema);
+
+
+
+
+//auth.middleware.ts:
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+require('dotenv').config();
+
+// const SECRET_KEY = '93f7523c148399e7d4db227e35ef5386130a135fe8f38018b99d44eae546138e5e2f98d2a475d28d37a32edcc1d06485c83dac6c6b30b81e7300a418f9de9447';
+const SECRET_KEY = process.env.SECRET_KEY;
+
+export interface CustomRequest extends Request {
+  user?: any;
+}
+
+export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
+  const token = req.header('Authorization')?.split(' ')[1];
+
+  if (!token) {
+    console.log('Token missing');
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  console.log('Received Token:', token);
+  jwt.verify(token, SECRET_KEY as jwt.Secret, (err: any, user: any) => {
+    if (err) {
+      console.log('Token verification failed',err); 
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    req.user = user;
+    console.log('Token verified successfully'); 
+    next();
+  });
+};
+
+export default authenticateJWT;
+
+
+
+
+
+//service.routes.ts:
+import { Router } from 'express';
+import {
+  getServices,
+  createService,
+  updateService,
+  deleteService,
+} from '../controllers/service.controller';
+
+import {
+  getSocialfeed,
+  createSocialfeed,
+  updateSocialfeed,
+  deleteSocialfeed,
+} from '../controllers/social-feed.controller';
+
+import {
+  getTestimonial,
+  createTestimonial,
+  updateTestimonial,
+  deleteTestimonial,
+} from '../controllers/testimonial.controller';
+
+import {
+  getProject,
+  createProject,
+  updateProject,
+  deleteProject,
+} from '../controllers/project.controller';
+
+
+const router = Router();
+
+router.get('/services', getServices);
+router.post('/services', createService);
+router.put('/services/:id', updateService);
+router.delete('/services/:id', deleteService);
+
+router.get('/social-feed', getSocialfeed);
+router.post('/social-feed', createSocialfeed);
+router.put('/social-feed/:id', updateSocialfeed);
+router.delete('/social-feed/:id', deleteSocialfeed);
+
+router.get('/project', getProject);
+router.post('/project',createProject);
+router.put('/project/:id', updateProject);
+router.delete('/project/:id', deleteProject);
+
+router.get('/testimonial', getTestimonial);
+router.post('/testimonial', createTestimonial);
+router.put('/testimonial/:id', updateTestimonial);
+router.delete('/testimonial/:id', deleteTestimonial);
+
+export default router;
+
+
+
+
+
+//index.ts:   
+
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import serviceRoutes from './routes/service.routes';
+import authRoutes from './routes/auth.middleware';
+import { registerUser, loginUser } from './controllers/user.controller';
+import { authenticateJWT, CustomRequest } from './routes/auth.middleware';
+import { Request, Response, NextFunction } from 'express'; 
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
+
+// require('dotenv').config();
+const SECRET_KEY = process.env.SECRET_KEY;
+const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+
+mongoose.connect('mongodb+srv://manu12shetty:tara12shetty@cluster0.6qcysms.mongodb.net/test')
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('MongoDB connection error:', error);
+  });
+
+
+app.use('/api', serviceRoutes);
+app.post('/register', registerUser);
+app.post('/login', loginUser);
+app.get('/protected', authenticateJWT, (req: CustomRequest, res: Response) => {
+  res.json({ message: 'Protected route' });
+});
+
+app.post('/refresh-token', (req: Request, res: Response) => {
+
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({ error: 'Refresh token missing' });
+  }
+
+  try {
+    
+    const decoded = jwt.verify(refreshToken, REFRESH_SECRET_KEY as jwt.Secret);
+
+    interface JwtPayload {
+      userId: string;
+    }    
+    
+    const payload = { userId: (decoded as JwtPayload).userId };
+
+    const newAccessToken = jwt.sign(payload, SECRET_KEY as jwt.Secret, { expiresIn: '15m' });
+
+
+    res.status(200).json({ accessToken: newAccessToken });
+  } catch (error) {
+    
+    return res.status(401).json({ error: 'Invalid refresh token' });
+  }
+});
+
+
+app.use('/projects', authenticateJWT, serviceRoutes); 
+app.use('/auth', authRoutes); 
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+

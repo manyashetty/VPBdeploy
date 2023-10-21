@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSocialfeed = exports.updateSocialfeed = exports.createSocialfeed = exports.getSocialfeed = void 0;
 const social_feed_model_js_1 = __importDefault(require("../models/social-feed.model.js"));
+const auth_middleware_js_1 = require("../routes/auth.middleware.js");
 const getSocialfeed = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const socialfeed = yield social_feed_model_js_1.default.find();
@@ -24,47 +25,50 @@ const getSocialfeed = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getSocialfeed = getSocialfeed;
-const createSocialfeed = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { platform, content } = req.body;
-    if (!platform || !content) {
-        return res.status(400).json({ error: 'Platform and content are required' });
-    }
-    try {
-        const socialfeed = new social_feed_model_js_1.default({ platform, content });
-        yield socialfeed.save();
-        res.status(201).json(socialfeed);
-    }
-    catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-exports.createSocialfeed = createSocialfeed;
-const updateSocialfeed = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const socialfeedId = req.params.id;
-        const { platform, content } = req.body;
-        // Check if the service exists
-        const existingSocialfeed = yield social_feed_model_js_1.default.findById(socialfeedId);
-        if (!existingSocialfeed) {
-            return res.status(404).json({ error: 'Socialfeed not found' });
+exports.createSocialfeed = [auth_middleware_js_1.authenticateJWT, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { image, platform, content } = req.body;
+        if (!platform || !content || !image) {
+            return res.status(400).json({ error: 'Platform or image or content is missing' });
         }
-        // Update the service
-        if (platform) {
-            existingSocialfeed.platform = platform;
+        try {
+            const socialfeed = new social_feed_model_js_1.default({ image, platform, content });
+            yield socialfeed.save();
+            res.status(201).json(socialfeed);
         }
-        if (content) {
-            existingSocialfeed.content = content;
+        catch (error) {
+            res.status(500).json({ error: 'Internal Server Error' });
         }
-        // Save the updated service
-        const updatedSocialfeed = yield existingSocialfeed.save();
-        res.status(200).json(updatedSocialfeed);
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-exports.updateSocialfeed = updateSocialfeed;
+    }),
+];
+exports.updateSocialfeed = [auth_middleware_js_1.authenticateJWT, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const socialfeedId = req.params.id;
+            const { image, platform, content } = req.body;
+            // Check if the service exists
+            const existingSocialfeed = yield social_feed_model_js_1.default.findById(socialfeedId);
+            if (!existingSocialfeed) {
+                return res.status(404).json({ error: 'Socialfeed not found' });
+            }
+            // Update the service
+            if (image) {
+                existingSocialfeed.image = image;
+            }
+            if (platform) {
+                existingSocialfeed.platform = platform;
+            }
+            if (content) {
+                existingSocialfeed.content = content;
+            }
+            // Save the updated service
+            const updatedSocialfeed = yield existingSocialfeed.save();
+            res.status(200).json(updatedSocialfeed);
+        }
+        catch (error) {
+            console.log(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }),
+];
 const deleteSocialfeed = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const socialfeedId = req.params.id;

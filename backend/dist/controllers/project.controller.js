@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProject = exports.updateProject = exports.createProject = exports.getProject = void 0;
 const project_model_js_1 = __importDefault(require("../models/project.model.js"));
+const auth_middleware_js_1 = require("../routes/auth.middleware.js");
 const getProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const project = yield project_model_js_1.default.find();
@@ -24,58 +25,51 @@ const getProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getProject = getProject;
-const createProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = req.user;
-    const { title, description, image_url } = req.body;
-    if (!user || !user._id) {
-        return res.status(401).json({ error: 'Unauthorized' });
-    }
-    if (!title || !description || !image_url) {
-        return res.status(400).json({ error: 'Title ,description and image_url are required' });
-    }
-    try {
-        const project = new project_model_js_1.default({ title, description, image_url, user: user._id });
-        if (user) {
-            project.user = user;
+exports.createProject = [auth_middleware_js_1.authenticateJWT, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const { title, description, image_url } = req.body;
+            const project = new project_model_js_1.default({
+                title,
+                description,
+                image_url
+            });
+            yield project.save();
+            res.status(201).json(project);
         }
-        yield project.save();
-        res.status(201).json(project);
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-exports.createProject = createProject;
-const updateProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const projectId = req.params.id;
-        const { title, description, image_url } = req.body;
-        // Check if the service exists
-        const existingProject = yield project_model_js_1.default.findById(projectId);
-        if (!existingProject) {
-            return res.status(404).json({ error: 'Project not found' });
+        catch (error) {
+            console.log(error);
+            res.status(500).json({ error: 'Internal Server Error' });
         }
-        // Update the service
-        if (title) {
-            existingProject.title = title;
+    })];
+exports.updateProject = [auth_middleware_js_1.authenticateJWT, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const projectId = req.params.id;
+            const { title, description, image_url } = req.body;
+            // Check if the service exists
+            const existingProject = yield project_model_js_1.default.findById(projectId);
+            if (!existingProject) {
+                return res.status(404).json({ error: 'Project not found' });
+            }
+            // Update the service
+            if (title) {
+                existingProject.title = title;
+            }
+            if (description) {
+                existingProject.description = description;
+            }
+            if (image_url) {
+                existingProject.image_url = image_url;
+            }
+            // Save the updated service
+            const updatedProject = yield existingProject.save();
+            res.status(200).json(updatedProject);
         }
-        if (description) {
-            existingProject.description = description;
+        catch (error) {
+            console.log(error);
+            res.status(500).json({ error: 'Internal Server Error' });
         }
-        if (image_url) {
-            existingProject.image_url = image_url;
-        }
-        // Save the updated service
-        const updatedProject = yield existingProject.save();
-        res.status(200).json(updatedProject);
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-exports.updateProject = updateProject;
+    }),
+];
 const deleteProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const projectId = req.params.id;
@@ -86,7 +80,8 @@ const deleteProject = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         // Delete the service using deleteOne
         yield project_model_js_1.default.deleteOne({ _id: projectId });
-        res.status(204).json({ message: "Projectdeleted" }); // deleted
+        res.status(204).send('Deleted successfully');
+        // res.status(204).json({message:"Project deleted"}); // deleted
     }
     catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });

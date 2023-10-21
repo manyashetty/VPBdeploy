@@ -4,7 +4,8 @@ const mongoose_1 = require("mongoose");
 const TestimonialSchema = new mongoose_1.Schema({
     name: String,
     comment: String,
-    image_url: String
+    image_url: String,
+    created_at: { type: Date, default: Date.now }
 });
 const TestimonialModel = (0, mongoose_1.model)('Testimonial', TestimonialSchema);
 exports.default = TestimonialModel;

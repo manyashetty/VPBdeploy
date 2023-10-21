@@ -26,6 +26,9 @@ import {
   updateProject,
   deleteProject,
 } from '../controllers/project.controller';
+import authenticateJWT from './auth.middleware';
+import {createContact} from '../controllers/contact-us.controller' ;
+
 
 const router = Router();
 
@@ -40,8 +43,8 @@ router.put('/social-feed/:id', updateSocialfeed);
 router.delete('/social-feed/:id', deleteSocialfeed);
 
 router.get('/project', getProject);
-router.post('/project', createProject);
-router.put('/project/:id', updateProject);
+router.post('/project', authenticateJWT, createProject);
+router.put('/project/:id',authenticateJWT, updateProject);
 router.delete('/project/:id', deleteProject);
 
 router.get('/testimonial', getTestimonial);
@@ -49,4 +52,5 @@ router.post('/testimonial', createTestimonial);
 router.put('/testimonial/:id', updateTestimonial);
 router.delete('/testimonial/:id', deleteTestimonial);
 
+router.post('/contact',createContact)
 export default router;

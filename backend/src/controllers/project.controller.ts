@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import ProjectModel from '../models/project.model.js';
 import UserModel, { IUser } from '../models/user.model'; 
 import { CustomRequest } from '../routes/auth.middleware'; 
+import { authenticateJWT } from '../routes/auth.middleware.js'; 
 
 export const getProject = async (req: Request, res: Response) => {
   try {
@@ -12,28 +13,16 @@ export const getProject = async (req: Request, res: Response) => {
   }
 };
 
-export const createProject = async (req: CustomRequest, res: Response) => {
-      const user = req.user as IUser;
-  const { title, description, image_url } = req.body;
-  
-  if (!user || !user._id) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
 
-
-  if (!title || !description || !image_url) {
-    return res.status(400).json({ error: 'Title ,description and image_url are required' });
-  }
-
+export const createProject = [authenticateJWT, async (req: CustomRequest, res: Response) => {
+ 
   try {
-    const project = new ProjectModel({ title, description, image_url, user: user._id});
-
-
-
-
-    if (user) {
-      project.user = user;
-    }
+  const { title, description, image_url } = req.body;
+    const project = new ProjectModel({
+      title,
+      description,
+      image_url
+    });
 
     await project.save();
     res.status(201).json(project);
@@ -41,9 +30,9 @@ export const createProject = async (req: CustomRequest, res: Response) => {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+}];
 
-export const updateProject = async (req: Request, res: Response) => {
+export const updateProject = [authenticateJWT, async (req: Request, res: Response) => {
   try {
     const projectId = req.params.id;
     const { title, description, image_url } = req.body;
@@ -72,7 +61,8 @@ export const updateProject = async (req: Request, res: Response) => {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+},
+];
 
 export const deleteProject = async (req: Request, res: Response) => {
   try {
@@ -86,8 +76,9 @@ export const deleteProject = async (req: Request, res: Response) => {
 
     // Delete the service using deleteOne
     await ProjectModel.deleteOne({ _id: projectId });
+    res.status(204).send('Deleted successfully');
 
-    res.status(204).json({message:"Projectdeleted"}); // deleted
+    // res.status(204).json({message:"Project deleted"}); // deleted
   } catch (error) {
     
     res.status(500).json({ error: 'Internal Server Error' });

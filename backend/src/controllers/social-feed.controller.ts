@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import SocialfeedModel from '../models/social-feed.model.js';
+import { CustomRequest } from '../routes/auth.middleware'; 
+import { authenticateJWT } from '../routes/auth.middleware.js'; 
 
 export const getSocialfeed = async (req: Request, res: Response) => {
   try {
@@ -10,25 +12,26 @@ export const getSocialfeed = async (req: Request, res: Response) => {
   }
 };
 
-export const createSocialfeed = async (req: Request, res: Response) => {
-  const { platform, content } = req.body;
-  if (!platform || !content) {
-    return res.status(400).json({ error: 'Platform and content are required' });
+export const createSocialfeed = [authenticateJWT, async (req: CustomRequest, res: Response) => {
+  const { image, platform, content } = req.body;
+  if (!platform || !content || !image) {
+    return res.status(400).json({ error: 'Platform or image or content is missing' });
   }
 
   try {
-    const socialfeed = new SocialfeedModel({ platform,content });
+    const socialfeed = new SocialfeedModel({ image,platform,content });
     await socialfeed.save();
     res.status(201).json(socialfeed);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+},
+];
 
-export const updateSocialfeed = async (req: Request, res: Response) => {
+export const updateSocialfeed = [authenticateJWT, async (req: CustomRequest, res: Response) => {
   try {
     const socialfeedId = req.params.id;
-    const { platform, content } = req.body;
+    const { image, platform, content } = req.body;
 
     // Check if the service exists
     const existingSocialfeed = await SocialfeedModel.findById(socialfeedId);
@@ -37,6 +40,9 @@ export const updateSocialfeed = async (req: Request, res: Response) => {
     }
 
     // Update the service
+    if(image){
+      existingSocialfeed.image=image;
+    }
     if (platform) {
       existingSocialfeed.platform = platform;
     }
@@ -51,7 +57,8 @@ export const updateSocialfeed = async (req: Request, res: Response) => {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+},
+];
 
 export const deleteSocialfeed = async (req: Request, res: Response) => {
   try {
