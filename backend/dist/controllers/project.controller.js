@@ -31,7 +31,8 @@ exports.createProject = [auth_middleware_js_1.authenticateJWT, (req, res) => __a
             const project = new project_model_js_1.default({
                 title,
                 description,
-                image_url
+                image_url,
+                owner: req.userId
             });
             yield project.save();
             res.status(201).json(project);

@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import SocialfeedModel from '../models/social-feed.model.js';
 import { CustomRequest } from '../routes/auth.middleware'; 
 import { authenticateJWT } from '../routes/auth.middleware.js'; 
+import UserModel, { IUser } from '../models/user.model'; 
+
 
 export const getSocialfeed = async (req: Request, res: Response) => {
   try {
@@ -19,7 +21,7 @@ export const createSocialfeed = [authenticateJWT, async (req: CustomRequest, res
   }
 
   try {
-    const socialfeed = new SocialfeedModel({ image,platform,content });
+    const socialfeed = new SocialfeedModel({ image,platform,content, owner: req.userId });
     await socialfeed.save();
     res.status(201).json(socialfeed);
   } catch (error) {

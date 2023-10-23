@@ -31,7 +31,7 @@ exports.createSocialfeed = [auth_middleware_js_1.authenticateJWT, (req, res) => 
             return res.status(400).json({ error: 'Platform or image or content is missing' });
         }
         try {
-            const socialfeed = new social_feed_model_js_1.default({ image, platform, content });
+            const socialfeed = new social_feed_model_js_1.default({ image, platform, content, owner: req.userId });
             yield socialfeed.save();
             res.status(201).json(socialfeed);
         }

@@ -26,12 +26,12 @@ const getServices = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getServices = getServices;
 exports.createService = [auth_middleware_js_1.authenticateJWT, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { name, description } = req.body;
-        if (!name || !description) {
-            return res.status(400).json({ error: 'Name and description are required' });
+        const { name, description, image_url } = req.body;
+        if (!name || !description || !image_url) {
+            return res.status(400).json({ error: 'Name and description and image_url are required' });
         }
         try {
-            const service = new service_model_js_1.default({ name, description });
+            const service = new service_model_js_1.default({ name, description, image_url, owner: req.userId });
             yield service.save();
             res.status(201).json(service);
         }

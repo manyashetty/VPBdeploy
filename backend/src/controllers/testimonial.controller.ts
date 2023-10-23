@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import TestimonialModel from '../models/testimonial.model.js';
 import { CustomRequest } from '../routes/auth.middleware'; 
 import { authenticateJWT } from '../routes/auth.middleware.js'; 
+import UserModel, { IUser } from '../models/user.model'; 
 
 export const getTestimonial = async (req: Request, res: Response) => {
   try {
@@ -19,7 +20,7 @@ export const createTestimonial =  [authenticateJWT, async (req: CustomRequest, r
   }
 
   try {
-    const testimonial = new TestimonialModel({ name, comment, image_url });
+    const testimonial = new TestimonialModel({ name, comment, image_url,owner: req.userId });
     await testimonial.save();
     res.status(201).json(testimonial);
   } catch (error) {

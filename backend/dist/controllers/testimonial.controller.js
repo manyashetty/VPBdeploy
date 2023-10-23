@@ -31,7 +31,7 @@ exports.createTestimonial = [auth_middleware_js_1.authenticateJWT, (req, res) =>
             return res.status(400).json({ error: 'Name ,description and image_url are required' });
         }
         try {
-            const testimonial = new testimonial_model_js_1.default({ name, comment, image_url });
+            const testimonial = new testimonial_model_js_1.default({ name, comment, image_url, owner: req.userId });
             yield testimonial.save();
             res.status(201).json(testimonial);
         }

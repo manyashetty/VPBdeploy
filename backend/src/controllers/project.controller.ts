@@ -21,7 +21,8 @@ export const createProject = [authenticateJWT, async (req: CustomRequest, res: R
     const project = new ProjectModel({
       title,
       description,
-      image_url
+      image_url,
+      owner: req.userId
     });
 
     await project.save();

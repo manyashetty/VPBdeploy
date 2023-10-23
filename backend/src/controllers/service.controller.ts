@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import ServiceModel from '../models/service.model.js';
 import { CustomRequest } from '../routes/auth.middleware'; 
+import UserModel, { IUser } from '../models/user.model'; 
 import { authenticateJWT } from '../routes/auth.middleware.js'; 
 
 export const getServices = async (req: Request, res: Response) => {
@@ -12,14 +13,14 @@ export const getServices = async (req: Request, res: Response) => {
   }
 };
 
-export const createService = [ authenticateJWT, async (req: Request, res: Response) => {
-  const { name, description } = req.body;
-  if (!name || !description) {
-    return res.status(400).json({ error: 'Name and description are required' });
+export const createService = [ authenticateJWT, async (req: CustomRequest, res: Response) => {
+  const { name, description, image_url} = req.body;
+  if (!name || !description || !image_url) {
+    return res.status(400).json({ error: 'Name and description and image_url are required' });
   }
 
   try {
-    const service = new ServiceModel({ name, description });
+    const service = new ServiceModel({ name, description, image_url, owner: req.userId });
     await service.save();
     res.status(201).json(service);
   } catch (error) {
