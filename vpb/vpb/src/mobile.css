@@ -1,0 +1,17 @@
+.mobile{
+    background-color: rgb(118, 146, 230);
+    height: 20px;
+    width: 90px;
+    color:white;
+    border:2px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.id-1{
+    background-size: cover;
+    background-image: url("./images/mobilebg.jpg"); 
+    height: 250px;  
+    padding: 90px;
+}
+.id-1 p{
+    color:rgb(25, 5, 5);
+}

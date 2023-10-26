@@ -1,0 +1,117 @@
+.id{
+    background-size: cover;
+    background-image: url("./images/bg2\ \(2\).jpg"); 
+    height: 300px;  
+    padding: 90px;
+}
+.about{
+    background-color: rgb(118, 146, 230);
+    height: 20px;
+    width: 90px;
+    color:white;
+    border:2px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.container .id h3{
+    color:rgb(51, 49, 49);
+}
+.section-heading {
+    height: 300px;
+    padding: 90px;
+  } 
+.section-heading p {
+    font-family: "Arial", sans-serif;
+    font-size: 16px;
+    font-weight: lighter;
+    height: 300px;
+    color:grey
+}
+.workflow-item {
+    position: relative;
+    padding-left: 90px;
+    padding-bottom: 25px;
+    display: flex;
+}
+.workflow-info h3 {
+    font-weight: 700;
+    line-height: 1;
+
+}
+h3 {
+    font-size: 20px;
+}
+
+.section-heading1 h2{
+    margin-left: 90px;
+}
+.col-lg-8 {
+    position: relative; /* Set the parent element to a relative position */
+    width: 90%;
+    background-image: url("./images/greybg.jpeg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-left: 90px;
+}
+
+.col-lg-8::before {
+    content: "";
+    position: absolute; 
+    top: 0px; 
+    right: 1px; 
+    width: 600px;
+    height: 706px;
+    background-image: url("./images/girlgif3.gif");
+    background-size:cover;
+    z-index: 1; 
+} 
+.container1 {
+    padding: 90px;
+}
+ .container1 h2{
+    font-family:' var(--primary-font), sans-serif';
+    font-size: 32px;
+    line-height: 42px;
+    color: var(--heading-color);
+    margin: 0 0 10px;
+    font-weight: 600;
+    letter-spacing: -1px;
+}
+.container1 p{
+    color:grey;
+}
+.content{
+    position: relative; /* Set the parent element to a relative position */
+    width: 90%;
+    background-image: url("./images/greybg.jpeg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-left: 90px;
+    height:220px;
+}
+.button{
+        background-color:rgb(82, 158, 209);
+        height: 60px;
+        width: 150px;
+        color:white;
+        border: 2px;
+        margin-left: 90px;
+        border-radius: 10px;
+
+}
+.container2 .content h2 {
+    padding-top: 20px;
+    font-family:' var(--primary-font), sans-serif';
+}
+.container2 .content h5{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color:grey;
+}
+
+
+
+
+
+
+  
