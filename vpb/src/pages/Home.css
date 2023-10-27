@@ -1,0 +1,75 @@
+.home {
+  background-image: url('../images/11.jpg'); /* Fixed background image for the entire homepage */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.hero {
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-content {
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 18px;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.content {
+  background-color: rgba(255, 255, 255, 0.7); /* Transparent background for the content section */
+  padding: 40px;
+}
+
+.content-inner {
+  text-align: center;
+}
+
+.content h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.testimonials {
+  background-color: #fff; /* Opaque white background for the testimonials section */
+  padding: 40px;
+}
+
+.testimonials-content {
+  text-align: center;
+}
+
+.contact {
+  background-color: rgba(255, 255, 255, 0.7); /* Transparent background for the contact section */
+  padding: 40px;
+}
+
+.contact h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Footer styles here */
+
+body {
+  scroll-behavior: smooth; /* Smooth scroll effect */
+}
