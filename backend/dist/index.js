@@ -11,6 +11,9 @@ const user_controller_1 = require("./controllers/user.controller");
 const auth_middleware_2 = require("./routes/auth.middleware");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
+const mutler_1 = require("./routes/mutler");
+// import{ upload }from './Bucket';
 dotenv_1.default.config();
 // require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -18,6 +21,7 @@ const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
 const app = (0, express_1.default)();
 const port = 3000;
 app.use(express_1.default.json());
+app.use((0, cors_1.default)({ origin: 'http://localhost:3001' }));
 mongoose_1.default.connect('mongodb+srv://manu12shetty:tara12shetty@cluster0.6qcysms.mongodb.net/test')
     .then(() => {
     console.log('Connected to MongoDB');
@@ -48,6 +52,7 @@ app.post('/refresh-token', (req, res) => {
 });
 app.use('/projects', auth_middleware_2.authenticateJWT, service_routes_1.default);
 app.use('/auth', auth_middleware_1.default);
+app.use('/upload', mutler_1.upload.single('file'));
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

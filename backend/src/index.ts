@@ -9,6 +9,11 @@ import { authenticateJWT, CustomRequest } from './routes/auth.middleware';
 import { Request, Response, NextFunction } from 'express'; 
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import cors from 'cors'; 
+import {upload} from './routes/mutler';
+import multer, { Multer } from 'multer';
+
+// import{ upload }from './Bucket';
 dotenv.config();
 
 // require('dotenv').config();
@@ -18,6 +23,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cors({ origin: 'http://localhost:3001' }));
 
 mongoose.connect('mongodb+srv://manu12shetty:tara12shetty@cluster0.6qcysms.mongodb.net/test')
   .then(() => {
@@ -66,6 +72,9 @@ app.post('/refresh-token', (req: Request, res: Response) => {
 
 app.use('/projects', authenticateJWT, serviceRoutes); 
 app.use('/auth', authRoutes); 
+app.use('/upload', (upload as any).single('file'));
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

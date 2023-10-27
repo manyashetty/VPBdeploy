@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteService = exports.updateService = exports.createService = exports.getServices = void 0;
 const service_model_js_1 = __importDefault(require("../models/service.model.js"));
 const auth_middleware_js_1 = require("../routes/auth.middleware.js");
+const s3client_js_1 = __importDefault(require("./s3client.js"));
+const mutler_js_1 = require("../routes/mutler.js");
 const getServices = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const services = yield service_model_js_1.default.find();
@@ -26,12 +28,22 @@ const getServices = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getServices = getServices;
 exports.createService = [auth_middleware_js_1.authenticateJWT, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const serviceData = req.body;
+        console.log(serviceData);
         const { name, description, image_url } = req.body;
-        if (!name || !description || !image_url) {
-            return res.status(400).json({ error: 'Name and description and image_url are required' });
+        if (!name || !description) {
+            console.log();
+            return res.status(400).json({ error: 'Name and description are required' });
         }
+        if (!req.file) {
+            return res.status(400).json({ error: 'Image url is required' });
+        }
+        if (Object.keys(serviceData).length === 0) {
+            return res.status(400).send({ status: false, msg: "No data provided" });
+        }
+        const preSignedUrl = (0, mutler_js_1.generatePublicPresignedUrl)(req.file.key);
         try {
-            const service = new service_model_js_1.default({ name, description, image_url, owner: req.userId });
+            const service = new service_model_js_1.default({ name, description, preSignedUrl, owner: req.userId });
             yield service.save();
             res.status(201).json(service);
         }
@@ -74,8 +86,27 @@ exports.deleteService = [auth_middleware_js_1.authenticateJWT, (req, res) => __a
             if (!existingService) {
                 return res.status(404).json({ error: 'Service not found' });
             }
+            const imageKey = existingService.image_url;
+            //delete function for img in bucket 
+            const deleteImageFromS3 = (imageKey, s3) => {
+                const params = {
+                    Bucket: process.env.WASABI_BUCKET,
+                    Key: imageKey,
+                };
+                return new Promise((resolve, reject) => {
+                    s3.deleteObject(params, (err, data) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve();
+                        }
+                    });
+                });
+            };
             // Delete the service using deleteOne
             yield service_model_js_1.default.deleteOne({ _id: serviceId });
+            yield deleteImageFromS3(imageKey, s3client_js_1.default);
             res.status(204).json({ message: "Servicedeleted" }); // deleted
         }
         catch (error) {
@@ -83,3 +114,6 @@ exports.deleteService = [auth_middleware_js_1.authenticateJWT, (req, res) => __a
         }
     }),
 ];
+// function deleteImageFromS3(imageKey: string, s3: S3) {
+//   throw new Error('Function not implemented.');
+// }
