@@ -15,8 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteService = exports.updateService = exports.createService = exports.getServices = void 0;
 const service_model_js_1 = __importDefault(require("../models/service.model.js"));
 const auth_middleware_js_1 = require("../routes/auth.middleware.js");
-const s3client_js_1 = __importDefault(require("./s3client.js"));
-const mutler_js_1 = require("../routes/mutler.js");
+// import multerConfig from "../routes/mutler.js";
+// import { S3 } from 'aws-sdk';
+// import S3Instance from './s3client.js';
+// import { generatePublicPresignedUrl } from "../routes/mutler.js";
 const getServices = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const services = yield service_model_js_1.default.find();
@@ -35,15 +37,15 @@ exports.createService = [auth_middleware_js_1.authenticateJWT, (req, res) => __a
             console.log();
             return res.status(400).json({ error: 'Name and description are required' });
         }
-        if (!req.file) {
+        if (!image_url) {
             return res.status(400).json({ error: 'Image url is required' });
         }
         if (Object.keys(serviceData).length === 0) {
             return res.status(400).send({ status: false, msg: "No data provided" });
         }
-        const preSignedUrl = (0, mutler_js_1.generatePublicPresignedUrl)(req.file.key);
+        // const preSignedUrl: string = generatePublicPresignedUrl((req.file as Express.MulterS3.File).key);
         try {
-            const service = new service_model_js_1.default({ name, description, preSignedUrl, owner: req.userId });
+            const service = new service_model_js_1.default({ name, description, image_url, owner: req.userId });
             yield service.save();
             res.status(201).json(service);
         }
@@ -86,28 +88,27 @@ exports.deleteService = [auth_middleware_js_1.authenticateJWT, (req, res) => __a
             if (!existingService) {
                 return res.status(404).json({ error: 'Service not found' });
             }
-            const imageKey = existingService.image_url;
+            // const imageKey = existingService.image_url;
             //delete function for img in bucket 
-            const deleteImageFromS3 = (imageKey, s3) => {
-                const params = {
-                    Bucket: process.env.WASABI_BUCKET,
-                    Key: imageKey,
-                };
-                return new Promise((resolve, reject) => {
-                    s3.deleteObject(params, (err, data) => {
-                        if (err) {
-                            reject(err);
-                        }
-                        else {
-                            resolve();
-                        }
-                    });
-                });
-            };
+            // const deleteImageFromS3 = (imageKey: string, s3: S3): Promise<void> => {
+            //   const params: S3.DeleteObjectRequest = {
+            //     Bucket: process.env.WASABI_BUCKET as string,
+            //     Key: imageKey,
+            //   };
+            //   return new Promise<void>((resolve, reject) => {
+            //     s3.deleteObject(params, (err, data) => {
+            //       if (err) {
+            //         reject(err);
+            //       } else {
+            //         resolve();
+            //       }
+            //     });
+            //   });
+            // };
             // Delete the service using deleteOne
-            yield service_model_js_1.default.deleteOne({ _id: serviceId });
-            yield deleteImageFromS3(imageKey, s3client_js_1.default);
-            res.status(204).json({ message: "Servicedeleted" }); // deleted
+            // await ServiceModel.deleteOne({ _id: serviceId });
+            // await deleteImageFromS3(imageKey, S3Instance);
+            // res.status(204).json({message:"Servicedeleted"}); // deleted
         }
         catch (error) {
             res.status(500).json({ error: 'Internal Server Error' });

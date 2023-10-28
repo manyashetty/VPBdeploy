@@ -28,12 +28,14 @@ import {
 } from '../controllers/project.controller';
 import authenticateJWT from './auth.middleware';
 import {createContact} from '../controllers/contact-us.controller' ;
-import {upload} from './mutler';
+// import {upload} from './mutler';
 
 const router = Router();
 
 router.get('/services', getServices);
-router.post('/services',(upload as any).single('file'), createService);
+// router.post('/services', upload, createService); 
+router.post('/services',  createService); 
+
 router.put('/services/:id', updateService);
 router.delete('/services/:id', deleteService);
 

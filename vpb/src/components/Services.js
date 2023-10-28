@@ -21,7 +21,7 @@ const Services = () => {
           {services.map((service) => (
             <div key={service.id} className="col">
               <Card style={{ width: '18rem' }}>
-                <Card.Img src={service.image_url} alt={service.name} />
+                <Card.Img src={service.image_url} alt={service.name}  />
                 <Card.Body>
                   <Card.Title>{service.name}</Card.Title>
                   <Card.Text>{service.description}</Card.Text>

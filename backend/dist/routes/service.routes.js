@@ -10,10 +10,11 @@ const testimonial_controller_1 = require("../controllers/testimonial.controller"
 const project_controller_1 = require("../controllers/project.controller");
 const auth_middleware_1 = __importDefault(require("./auth.middleware"));
 const contact_us_controller_1 = require("../controllers/contact-us.controller");
-const mutler_1 = require("./mutler");
+// import {upload} from './mutler';
 const router = (0, express_1.Router)();
 router.get('/services', service_controller_1.getServices);
-router.post('/services', mutler_1.upload.single('file'), service_controller_1.createService);
+// router.post('/services', upload, createService); 
+router.post('/services', service_controller_1.createService);
 router.put('/services/:id', service_controller_1.updateService);
 router.delete('/services/:id', service_controller_1.deleteService);
 router.get('/social-feed', social_feed_controller_1.getSocialfeed);

@@ -9,11 +9,16 @@ import { authenticateJWT, CustomRequest } from './routes/auth.middleware';
 import { Request, Response, NextFunction } from 'express'; 
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import cors from 'cors'; 
-import {upload} from './routes/mutler';
-import multer, { Multer } from 'multer';
+import cors from 'cors';
 
-// import{ upload }from './Bucket';
+import aws, { S3 } from 'aws-sdk';
+import multer, { memoryStorage } from 'multer';
+
+import path from 'path';
+// import {upload} from './routes/mutler';
+// import multer, { Multer } from 'multer';
+
+import{ upload, s3, storage }from './Bucket';
 dotenv.config();
 
 // require('dotenv').config();
@@ -72,7 +77,33 @@ app.post('/refresh-token', (req: Request, res: Response) => {
 
 app.use('/projects', authenticateJWT, serviceRoutes); 
 app.use('/auth', authRoutes); 
-app.use('/upload', (upload as any).single('file'));
+// app.use('/upload', upload);
+app.post('/upload', upload.single('file'), (req: Request, res: Response) => {
+  if (!req.file) {
+    console.log(req.file)
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  const params: S3.Types.PutObjectRequest = {
+    Bucket: process.env.WASABI_BUCKET as string,
+    Key: `${Date.now()}_${path.basename(req.file.originalname)}`,
+    Body: req.file.buffer,
+    ACL: 'public-read', // Set ACL to public-read for public access
+  };
+
+  // Upload the file to the Wasabi S3 bucket
+  s3.upload(params, (error: Error, data: S3.ManagedUpload.SendData) => {
+    if (error) {
+        console.log(error)
+      return res.status(500).json({ error: 'File upload failed' });
+    }
+
+    const fileKey = params.Key;
+    const fileUrl = s3.getSignedUrl('getObject', { Bucket: params.Bucket, Key: fileKey });
+
+    res.json({ key: fileKey, url: fileUrl });
+  });
+});
 
 
 

@@ -12,8 +12,10 @@ const auth_middleware_2 = require("./routes/auth.middleware");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-const mutler_1 = require("./routes/mutler");
-// import{ upload }from './Bucket';
+const path_1 = __importDefault(require("path"));
+// import {upload} from './routes/mutler';
+// import multer, { Multer } from 'multer';
+const Bucket_1 = require("./Bucket");
 dotenv_1.default.config();
 // require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -52,7 +54,29 @@ app.post('/refresh-token', (req, res) => {
 });
 app.use('/projects', auth_middleware_2.authenticateJWT, service_routes_1.default);
 app.use('/auth', auth_middleware_1.default);
-app.use('/upload', mutler_1.upload.single('file'));
+// app.use('/upload', upload);
+app.post('/upload', Bucket_1.upload.single('file'), (req, res) => {
+    if (!req.file) {
+        console.log(req.file);
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+    const params = {
+        Bucket: process.env.WASABI_BUCKET,
+        Key: `${Date.now()}_${path_1.default.basename(req.file.originalname)}`,
+        Body: req.file.buffer,
+        ACL: 'public-read', // Set ACL to public-read for public access
+    };
+    // Upload the file to the Wasabi S3 bucket
+    Bucket_1.s3.upload(params, (error, data) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).json({ error: 'File upload failed' });
+        }
+        const fileKey = params.Key;
+        const fileUrl = Bucket_1.s3.getSignedUrl('getObject', { Bucket: params.Bucket, Key: fileKey });
+        res.json({ key: fileKey, url: fileUrl });
+    });
+});
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
