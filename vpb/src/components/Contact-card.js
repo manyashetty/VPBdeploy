@@ -26,6 +26,7 @@ const ContactCard = () => {
       'fLao5YjopORu8pkPM'
     )
     .then((response) => {
+      alert("Email sent Successfully");
       console.log('Email sent successfully', response);
     })
     .catch((error) => {
