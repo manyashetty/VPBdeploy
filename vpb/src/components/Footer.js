@@ -1,6 +1,11 @@
 import Icon from "../assets/Icon.png";
 import logo from "../assets/logo.png";
-import { FaInstagram,FaDribbble,FaXTwitter,FaYoutube } from "react-icons/fa6";
+import {
+    FaFacebook,
+    FaTwitter,
+    FaInstagram,
+    FaYoutube,
+  } from 'react-icons/fa';
 import "./style.scss";
 
 const Footer = () => {
@@ -40,12 +45,9 @@ const Footer = () => {
                         All rights reserved
                     </span>
                 </div>
-                <div className="footer-icons">
-                    <FaInstagram/>
-                    <FaDribbble/>
-                    <FaXTwitter/>
-                    <FaYoutube/>
-                </div>
+
+              
+      
             </div>
             <div className="footer-links">
                     {links.map((col,index) => (
@@ -58,6 +60,15 @@ const Footer = () => {
                         </ul>
                     ))}
             </div>
+
+
+            <div className="footer-icons">
+        <FaFacebook className="social-icon" />
+        <FaTwitter className="social-icon" />
+        <FaInstagram className="social-icon" />
+        <FaYoutube className="social-icon" />
+      </div>
+
             <div className="footer-form">
                 <label htmlFor="">
                     Register for newletters:

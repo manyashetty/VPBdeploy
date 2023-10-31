@@ -2,5 +2,25 @@
     background-color: #333;
     color: #fff;
     padding: 20px;
+    
     /* Add more styling as needed */
   }
+  /* Navbar.css */
+
+/* Custom class for the dark blue background color */
+.bg-dark-blue {
+  background-color: #0d425c; /* You can change this color code to your preferred shade of dark blue */
+ color: #fff; /* Text color for better visibility on dark background */
+}
+.text-white {
+  color: #fff;
+}
+/* Style for navigation links */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav .nav-item {
+  margin-right: 20px; /* Adjust the margin as needed */
+}

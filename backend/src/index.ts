@@ -97,9 +97,9 @@ app.post('/upload', upload.single('file'), (req: Request, res: Response) => {
         console.log(error)
       return res.status(500).json({ error: 'File upload failed' });
     }
-
+    const expirationTimeInSeconds = 48 * 60 * 60; 
     const fileKey = params.Key;
-    const fileUrl = s3.getSignedUrl('getObject', { Bucket: params.Bucket, Key: fileKey });
+    const fileUrl = s3.getSignedUrl('getObject', { Bucket: params.Bucket, Key: fileKey,  Expires: expirationTimeInSeconds });
 
     res.json({ key: fileKey, url: fileUrl });
   });

@@ -21,4 +21,3 @@ exports.upload = (0, multer_1.default)({
     storage: exports.storage,
     limits: { fileSize: 1024 * 1024 * 5 }, // Limit file size to 5MB
 });
-// Define the /upload endpoint to handle file uploads

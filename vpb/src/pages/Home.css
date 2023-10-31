@@ -1,106 +1,49 @@
 /* Apply a static banner background image */
 .hero {
-  background-image: url('../images/11.jpg');
+  background-image: url('../images/bg4.avif');
   background-size: cover;
-  background-attachment: fixed; /* Ensures the background image remains static */
+  /* background-attachment: fixed;  */
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+ 
   text-align: center;
   color: #fff;
 }
 
-/* Opaque background for the service section */
-.content {
-  background-color: rgba(0, 0, 0, 0.7); /* Adjust the opacity as needed */
+.content-1, .content-2 {
+  text-align: center;
+  background-color: #0d425c; 
+  color: #fff; /* Text color for better readability */
+  padding: 20px;
+}
+#hval{
+  text-align: center;
+}
+
+ .testimonials {
+
+  color: #0e0000; /* Text color for better readability */
   padding: 20px;
 }
 
-/* Transparent background for testimonials section */
+  
+.services {
+
+  padding: 40px;
+}
+
+.projects{
+  padding:40px ;
+}
+
 .testimonials {
-  background-color: rgba(255, 255, 255, 0.7); /* Adjust the opacity as needed */
+
   padding: 20px;
-  backdrop-filter: blur(5px); /* Applies a blur effect to the background for a see-through effect */
+ 
 }
 
-/* Ensure smooth scrolling effect */
+
 html {
   scroll-behavior: smooth;
 }
-
-/* .home {
-  background-image: url('../images/11.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-}
-
-.hero {
-  text-align: center;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-}
-
-.hero-content {
-  text-align: center;
-}
-
-.hero h1 {
-  font-size: 36px;
-  font-weight: bold;
-}
-
-.hero p {
-  font-size: 18px;
-}
-
-.btn {
-  display: inline-block;
-  background-color: #333;
-  color: #fff;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.content {
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: 40px;
-}
-
-.content-inner {
-  text-align: center;
-}
-
-.content h2 {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.testimonials {
-  background-color: #fff; 
-  padding: 40px;
-}
-
-.testimonials-content {
-  text-align: center;
-}
-
-.contact {
-  background-color: rgba(255, 255, 255, 0.7); 
-  padding: 40px;
-}
-
-.contact h2 {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-
-
-body {
-  scroll-behavior: smooth; 
-} */

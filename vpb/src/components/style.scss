@@ -11,7 +11,7 @@
     font-family: 'poppins';
 }
 .footer{
-    $bg-clr: #145a7e;
+    $bg-clr: #0d425c;
     $text-main-clr: #fff;
     $text-secondary-clr: #cccccc;
     width: 100%;
@@ -43,21 +43,7 @@
             color: $text-secondary-clr
         }
 
-        & .footer-icons {
-            display: flex;
-            align-items: center;
-            column-gap: .75rem;
-            & svg{
-                $padding : .75rem;
-                height: calc(32px + $padding);
-                width: calc(32px + $padding);
-                padding: $padding;
-                border-radius: 50%;
-                background-color: #42555f;
-                color: $text-secondary-clr;
-                cursor: pointer;
-            }
-        }
+      
     }
 
     &-links{

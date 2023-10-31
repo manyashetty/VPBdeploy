@@ -1,19 +1,26 @@
 import React from 'react';
+import { BrowserRouter, Route, Routes} from "react-router-dom";
+import { Navbar } from './components/Navbar';
 import "./App.css";
-import BucketList from './BucketList';
-
+import Footer from './components/Footer';
+import Uiux from './pages/Uiux';
 import {Home } from "./pages/Home";
 
-import Testimonials from './components/Testimonial';
-import Contact from './components/Contact-card';
 function App() {
   return (
-    <div>
-
-      <Home/>
-      {/* <BucketList /> */}
-
-    </div>
+    <>
+    <Navbar />
+    <BrowserRouter>
+    <Routes>
+    
+      <Route path="/" element={<Home />}/>
+      <Route path="/ui" element={<Uiux/>}/>
+    </Routes>
+    </BrowserRouter>
+       
+    <Footer />
+    </>
+ 
   );
 }
 
