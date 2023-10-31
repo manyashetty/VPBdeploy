@@ -25,23 +25,24 @@ const Projects = () => {
     <div>
       <div className="container">
         <Carousel interval={null} indicators={false}>
-          {projectSlides.map((slide, index) => (
-            <Carousel.Item key={index}>
-              <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
-                {slide.map((project) => (
-                  <div key={project.id} className="col">
-                    <Card style={{ width: '18rem' }}>
-                      <Card.Img src={project.image_url} alt={project.name} />
-                      <Card.Body>
-                        <Card.Title>{project.name}</Card.Title>
-                        <Card.Text>{project.description}</Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </div>
-                ))}
-              </div>
-            </Carousel.Item>
-          ))}
+        {projectSlides.map((slide, index) => (
+  <Carousel.Item key={index}>
+    <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+      {slide.map((project) => (
+        <div key={project.id} className="col">
+          <Card style={{ width: '18rem' }}>
+            <Card.Img src={project.image_url} alt={project.name} />
+            <Card.Body>
+              <Card.Title>{project.name}</Card.Title>
+              <Card.Text>{project.description.split('\n')[0]}</Card.Text>
+              {/* Use split('\n')[0] to get the first line of the description */}
+            </Card.Body>
+          </Card>
+        </div>
+      ))}
+    </div>
+  </Carousel.Item>
+))}
         </Carousel>
       </div>
     </div>

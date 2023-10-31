@@ -25,6 +25,7 @@ import {
   createProject,
   updateProject,
   deleteProject,
+  getProjectById,
 } from '../controllers/project.controller';
 import authenticateJWT from './auth.middleware';
 import {createContact} from '../controllers/contact-us.controller' ;
@@ -45,6 +46,7 @@ router.put('/social-feed/:id', updateSocialfeed);
 router.delete('/social-feed/:id', deleteSocialfeed);
 
 router.get('/project', getProject);
+router.get('/project/:id',getProjectById)
 router.post('/project', authenticateJWT, createProject);
 router.put('/project/:id',authenticateJWT, updateProject);
 router.delete('/project/:id', deleteProject);

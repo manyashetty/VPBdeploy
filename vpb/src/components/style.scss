@@ -10,6 +10,20 @@
     justify-content: center;
     font-family: 'poppins';
 }
+
+.social-icons {
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+  }
+  
+
+  .social-icons img {
+    width: 30px; 
+    height: auto; 
+  }
+  
+
 .footer{
     $bg-clr: #0d425c;
     $text-main-clr: #fff;

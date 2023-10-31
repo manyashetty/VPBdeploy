@@ -1,7 +1,7 @@
 import React from 'react';
 import './ui.css';
-import img1 from "../images/ui1.jpeg";
-import img2 from "../images/uiux.jpeg";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 // import ContactForm from './form';
 import ui1 from "../images/ui1.png";
 const Uiux= () => {
@@ -76,6 +76,26 @@ const Uiux= () => {
   </g>
 </svg>`;
 
+const [description, setDescription] = useState('');
+
+useEffect(() => {
+
+  axios.get('http://localhost:3000/api/services')
+    .then(response => {
+      console.log('Response Data:', response.data);
+     
+      const uiuxService = response.data.find(service => service.name === 'UI/UX Design');
+      if (uiuxService) {
+        console.log(uiuxService.description);
+        setDescription(uiuxService.description);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching data from the backend:');
+      console.error('Request:', error.config);
+      console.error('Response:', error.response);
+    });
+}, []);
 
 
   return (
@@ -93,32 +113,15 @@ const Uiux= () => {
         </div>
         <div className="col-md-4">
           <img src={ui1} id="img" className="img-fluid float-right mt-3" alt="Your Image" />
-     
+          <p id="para" className='clamped-text'>
+              {description}
+            </p>
+
         </div>
       </div>
-      <div className="big">
-        <h2>UI/UX Design The Key to a Successful Website</h2>
-        <p>
-        A good looking UI/UX design is important for any website because it makes the website more visually appealing and engaging, easier to use, builds trust and credibility, and can improve conversion rates. A visually appealing website is more likely to capture the attention of visitors and keep them engaged, which can lead to increased time spent on the website and improved SEO rankings. A well-designed UI/UX will make it easy for visitors to find what they are looking for and complete their tasks, which can lead to a better user experience and increased satisfaction and loyalty. A website that looks professional and well-designed will build trust and credibility with visitors, which can make them more likely to do business with the website owner. Finally, a good UI/UX can help to improve conversion rates by making it easier for visitors to take the desired action, such as making a purchase or signing up for a newsletter.
-        </p>
-      </div>
-      <div className="overview-wrap4">
-        <div>
-          <h4>Benefits of Having a Digital Marketing for Your Business :
-         </h4>
-          <ul className="overview-list4">
-            <li>Cost-effective.</li>
-            <li>Global reach</li>
-            <li>Targeted advertising</li>
-            <li>Measurable results</li>
-            <li>Engagement.</li>
-          </ul>
-        </div>
-        <br />
-        <p>
-        If you are not already using digital marketing, I encourage you to start. It is an essential part of any business's marketing strategy in 2023.
-        </p>
-      </div>
+    
+      {/* <div className="big">
+
       <div className="col-lg-4 sm-padding">
         <div className="siebar-widget">
           <div className="service-form-heading4">
@@ -127,13 +130,13 @@ const Uiux= () => {
               We're always happy to hear from you. Send us a message and let us know how we can help.
             </p>
             <section>
-           {/* <ContactForm />  */}
+          
             </section>
           </div>
         </div>
       </div>
-      <br />
-      </div>
+   </div> */}
+   </div>
     
         
            

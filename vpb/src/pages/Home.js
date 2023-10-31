@@ -12,9 +12,13 @@ export const Home = () => {
       
       <section className="hero">
         <div className="hero-content">
-          <h1>Welcome to Our Website</h1>
-          <p>Your content here</p>
-          <a href="/learn-more" className="btn">Learn More</a>
+          <h1 id='heading'>Turn Visions
+          <br />
+        <span class="margin-left">into Reality !!</span>
+</h1>
+          <h6 id='banner-text'>The success in developing business solutions can be attributed to our team of skilled and dedicated professionals, who are instrumental in our achievements.</h6>
+          <a href="/about" className="btn btn-info text-left">Learn More About-Us</a>
+
         </div>
       </section>
       <div className='content-1'>

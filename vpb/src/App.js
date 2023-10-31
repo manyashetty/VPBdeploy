@@ -5,7 +5,7 @@ import "./App.css";
 import Footer from './components/Footer';
 import Uiux from './pages/Uiux';
 import {Home } from "./pages/Home";
-
+import ProjectPage from './pages/ProjectPage';
 function App() {
   return (
     <>
@@ -15,6 +15,7 @@ function App() {
     
       <Route path="/" element={<Home />}/>
       <Route path="/ui" element={<Uiux/>}/>
+      <Route path="/project/:projectId" element={<ProjectPage />}/>
     </Routes>
     </BrowserRouter>
        

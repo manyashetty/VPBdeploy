@@ -1,66 +1,4 @@
-/* .ui{
-    background-color: rgb(118, 146, 230);
-    height: 20px;
-    width: 200px;
-    color:white;
-    border:2px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-.id-5{
-    background-size: cover;
-    background-image: url("../images/uibg.jpeg"); 
-    height: 250px;  
-    width:1350px;
-    padding: 90px;
-}
-.id-5::before {
-    content: "";
-    position: absolute; 
-    top: 0px; 
-    right: 1px; 
-    width: 450px;
-    height: 420px;
-    background-image: url("../images//girl.jpeg");
-    margin-left: 90px;
-    background-size:cover;
-    z-index: 1; 
-} 
-.project-details-content4{
-    padding-left: 90px;
-}
-.project-details-content4 p{
-    color:grey;
-}
-.overview-wrap4 h4{
-    color:rgb(66, 171, 189);
-    padding-left: 90px;
-}
-.overview-list4{
-    margin-left: 90px;
-    color:grey;
-}
-.overview-wrap4 p{
-    padding-left:90px;
-    color:grey;
-}
-.service-form-heading4 h3{
-    padding-left:90px;
-}
-.service-form-heading4 p{
-    padding-left:90px;
-    color:grey;
-}
-.sidebar-ads img{
-    padding-left: 90px;
-    height:700px;
-    width:800px;
-    padding-left: 90px;
-}
-.image-container img:first-child {
-    margin-left: 90px;
-    width:30%;
-    margin-right: 250px;
-} */
+
 .background {
     position: absolute;
     background-color: #e6cfe7cc;
@@ -70,8 +8,8 @@
     left: 0;
     right: 0;
     top: 0;
-    width: 100%; /* Set the width to 100% to cover the entire viewport width */
-    height: 100vh; /* Set the height to 100vh to cover the entire viewport height */
+    width: 100%; 
+    height: 100vh; 
   }
   svg {
     position: absolute;
@@ -85,12 +23,19 @@
     display: block;
     pointer-events: none;
   }
-  .big{
-    padding: 170px;
-  }
-  
+ 
   #img{
     height: 300px;
     width: 300px;
     right: 0;
+  }
+  #para{
+    text-align: center;
+  }
+  .clamped-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3; /* Adjust the number of lines as needed */
+    line-height: 1.5; /* Adjust the line height for spacing between lines */
   }

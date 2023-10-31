@@ -1,13 +1,11 @@
 import Icon from "../assets/Icon.png";
 import logo from "../assets/logo.png";
-import {
-    FaFacebook,
-    FaTwitter,
-    FaInstagram,
-    FaYoutube,
-  } from 'react-icons/fa';
-import "./style.scss";
 
+import "./style.scss";
+import fb from "../assets/facebook-circle-logo-24.png";
+import wa from "../assets/whatsapp-square-logo-24.png";
+import ig from "../assets/instagram-alt-logo-24.png";
+import yt from "../assets/youtube-logo-24.png";
 const Footer = () => {
     const links = [
         [
@@ -27,6 +25,7 @@ const Footer = () => {
             {label : 'Status' , key: 'item-2-5'},
         ]
     ]
+
     return (
         <div className='footer'>
             <div className="footer-company-info">
@@ -40,10 +39,19 @@ const Footer = () => {
                 <div className='infos'>             
                     <span>
                         Copyright © voltrix
+                      
+                        
                     </span>
                     <span>
                         All rights reserved
+                        
                     </span>
+                    <div class="social-icons">
+                    <img src={fb} alt="fb"/>
+                    <img src={wa} alt="wa"/>
+                    <img src={ig} alt="ig"/>
+                    <img src={yt} alt="yt"/>
+                    </div>
                 </div>
 
               
@@ -62,12 +70,6 @@ const Footer = () => {
             </div>
 
 
-            <div className="footer-icons">
-        <FaFacebook className="social-icon" />
-        <FaTwitter className="social-icon" />
-        <FaInstagram className="social-icon" />
-        <FaYoutube className="social-icon" />
-      </div>
 
             <div className="footer-form">
                 <label htmlFor="">

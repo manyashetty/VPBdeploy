@@ -22,6 +22,7 @@ router.post('/social-feed', social_feed_controller_1.createSocialfeed);
 router.put('/social-feed/:id', social_feed_controller_1.updateSocialfeed);
 router.delete('/social-feed/:id', social_feed_controller_1.deleteSocialfeed);
 router.get('/project', project_controller_1.getProject);
+router.get('/project/:id', project_controller_1.getProjectById);
 router.post('/project', auth_middleware_1.default, project_controller_1.createProject);
 router.put('/project/:id', auth_middleware_1.default, project_controller_1.updateProject);
 router.delete('/project/:id', project_controller_1.deleteProject);

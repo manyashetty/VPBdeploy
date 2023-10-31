@@ -7,7 +7,7 @@ import Carousel from 'react-bootstrap/Carousel';
 const Services = () => {
   const [services, setServices] = useState([]);
   const itemsPerSlide = 4; // Number of items to display in each slide
-  const totalSlides = Math.ceil(services.length / itemsPerSlide); // Calculate the total number of slides
+  const totalSlides = Math.ceil(services.length / itemsPerSlide); 
 
   useEffect(() => {
     axios
@@ -38,7 +38,7 @@ const Services = () => {
                       />
                       <Card.Body>
                         <Card.Title>{service.name}</Card.Title>
-                        <Card.Text>{service.description}</Card.Text>
+                        <Card.Text>{service.description.split('\n')[0]}</Card.Text>
                       </Card.Body>
                     </Card>
                   </div>
