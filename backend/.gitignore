@@ -1,6 +1,6 @@
 node_modules/
 git config --global core.excludesfile ~/.gitignore_global
-
+package-lock.json
 # misc
 .DS_Store
 .env.local
