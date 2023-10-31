@@ -1,6 +1,21 @@
 .contact {
-    background-color: #f7f7f7;
+    background-color:rgba(14, 95, 224, 0.9);
     padding: 50px 0;
     text-align: center;
-    /* Add more styling as needed */
+
   }
+.card{
+  max-width: 40rem;
+  background-color: rgba(159, 182, 219, 0.9);
+
+}
+
+.card .btn {
+  width: 120px; 
+  height: 30px;
+  font-size: 14px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}

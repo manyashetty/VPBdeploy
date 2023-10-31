@@ -78,6 +78,8 @@ app.post('/upload', Bucket_1.upload.single('file'), (req, res) => {
         res.json({ key: fileKey, url: fileUrl });
     });
 });
+
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

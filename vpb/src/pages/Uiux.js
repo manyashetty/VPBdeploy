@@ -2,8 +2,9 @@ import React from 'react';
 import './ui.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-// import ContactForm from './form';
+import ContactCard from '../components/Contact-card';
 import ui1 from "../images/ui1.png";
+
 const Uiux= () => {
     const svgCode = `<svg
   version="1.1"
@@ -104,7 +105,7 @@ useEffect(() => {
    <div className="row">
         <div className="col-md-8">
           <div className="id-5" style={{ position: "relative", zIndex: 2 }}>
-            <button className="ui">UI/UX DESIGN</button>
+            <button className="ui btn btn-subtl">UI/UX DESIGN</button>
             <h2>UI/UX Design That Gets Results</h2>
             <p>
               UI/UX design creates visually pleasing, user-friendly interfaces by understanding user needs, crafting intuitive designs, and validating them for user satisfaction.
@@ -118,6 +119,7 @@ useEffect(() => {
             </p>
 
         </div>
+<ContactCard/>
       </div>
     
       {/* <div className="big">
