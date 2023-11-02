@@ -16,6 +16,7 @@ export const getProject = async (req: Request, res: Response) => {
 export const getProjectById = async (req: Request, res: Response) => {
   try {
     const projectId = req.params.id;
+
     const project = await ProjectModel.findById(projectId);
 
     if (project) {
@@ -26,6 +27,7 @@ export const getProjectById = async (req: Request, res: Response) => {
       res.status(404).json({ error: "Project not found", allProjects: allProjects });
     }
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: "Internal server error" });
   }
 };

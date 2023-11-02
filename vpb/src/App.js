@@ -5,9 +5,10 @@ import "./App.css";
 import Footer from './components/Footer';
 import Uiux from './pages/Uiux';
 import {Home } from "./pages/Home";
-import { Project } from './pages/Project';
+import { Project } from "./pages/Project";
+import ProjectPage from './pages/ProjectPage';
 function App() {
-  return (
+return (
     <>
     <Navbar />
     <BrowserRouter>
@@ -15,7 +16,8 @@ function App() {
     
       <Route path="/" element={<Home />}/>
       <Route path="/ui" element={<Uiux/>}/>
-      <Route path="/project/:projectId" element={<Project />}/>
+      <Route path="/project" element={<Project />}/>
+      <Route path="/project/:id" element={<ProjectPage/>}/>
     </Routes>
     </BrowserRouter>
        

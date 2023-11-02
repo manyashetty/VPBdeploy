@@ -1,0 +1,7 @@
+.proimg {
+    float: right; /* Float the image to the right side of the page */
+    max-width: 50%; /* Adjust the maximum width as needed */
+
+    height: 400px;
+    margin-top: 0px;
+  }
