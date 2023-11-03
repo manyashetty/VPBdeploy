@@ -27,6 +27,8 @@ import {
   deleteProject,
   getProjectById,
 } from '../controllers/project.controller';
+
+
 import authenticateJWT from './auth.middleware';
 import {createContact} from '../controllers/contact-us.controller' ;
 // import {upload} from './mutler';
@@ -57,4 +59,5 @@ router.put('/testimonial/:id', updateTestimonial);
 router.delete('/testimonial/:id', deleteTestimonial);
 
 router.post('/contact',createContact)
+
 export default router;

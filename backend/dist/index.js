@@ -20,11 +20,12 @@ dotenv_1.default.config();
 // require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
 const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
+const MongoDB = process.env.MONGODB_URL;
 const app = (0, express_1.default)();
 const port = 3000;
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({ origin: 'http://localhost:3001' }));
-mongoose_1.default.connect('mongodb+srv://manu12shetty:tara12shetty@cluster0.6qcysms.mongodb.net/test')
+mongoose_1.default.connect(MongoDB)
     .then(() => {
     console.log('Connected to MongoDB');
 })
@@ -72,7 +73,7 @@ app.post('/upload', Bucket_1.upload.single('file'), (req, res) => {
             console.log(error);
             return res.status(500).json({ error: 'File upload failed' });
         }
-        const expirationTimeInSeconds = 48 * 60 * 60;
+        const expirationTimeInSeconds = 360 * 60 * 60;
         const fileKey = params.Key;
         const fileUrl = Bucket_1.s3.getSignedUrl('getObject', { Bucket: params.Bucket, Key: fileKey, Expires: expirationTimeInSeconds });
         res.json({ key: fileKey, url: fileUrl });
