@@ -99,8 +99,8 @@ const ContactCard = () => {
             ></textarea>
             </div>
           </div>
-          <div className='button'>
-          <button type="submit" className="btn btn-outline-danger btn-subtle-danger">
+          <div className='button text-center'>
+          <button type="submit" className="btn btn-outline-danger btn-subtle-danger mx-auto">
             Send Message
           </button>
           </div>
