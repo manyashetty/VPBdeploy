@@ -23,7 +23,7 @@ const ProjectPage = () => {
   }, [id]);
 
   if (!project) {
-    return <p>Loading...</p>;
+    return <div className="loading-spinner"></div>;
   }
   const paragraphs = project.description.split("\n");
   const descriptionWithoutFirstLine = paragraphs.slice(2).join("\n");
@@ -46,7 +46,7 @@ const ProjectPage = () => {
       <div className="row">
        <div className="col-md-6 col-sm-12">
        <p>{descriptionWithoutFirstLine}</p>
-       <img src={project.image_url} id="dataimg" alt="text"/>
+       <img src={project.image_url} className="img-fluid" id="dataimg" alt="text"/>
       <p></p>
        </div>
        <div className="col-md-6 col-sm-12">

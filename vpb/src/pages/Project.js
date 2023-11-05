@@ -17,7 +17,7 @@ export const Project = () => {
   }, []);
 
   return (
-    <div>
+    <div >
       {projectIds.map((projectId) => (
         <div className="row" key={projectId}>
           <div className="col-md-4">

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   getServices,
+  getServiceById,
   createService,
   updateService,
   deleteService,
@@ -38,7 +39,7 @@ const router = Router();
 router.get('/services', getServices);
 // router.post('/services', upload, createService); 
 router.post('/services',  createService); 
-
+router.get('/services/:id',getServiceById)
 router.put('/services/:id', updateService);
 router.delete('/services/:id', deleteService);
 

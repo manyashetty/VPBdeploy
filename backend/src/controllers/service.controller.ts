@@ -18,6 +18,25 @@ export const getServices = async (req: Request, res: Response) => {
   }
 };
 
+export const getServiceById = async (req: Request, res: Response) => {
+  try {
+    const serviceId = req.params.id;
+
+    const service = await ServiceModel.findById(serviceId);
+
+    if (service) {
+      console.log(service);
+      res.status(200).json(service);
+    } else {
+      const allServices = await ServiceModel.find();
+      res.status(404).json({ error: "Service not found", allServices: allServices });
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export const createService = [ authenticateJWT, async (req: CustomRequest, res: Response) => {
   const serviceData = req.body;
   console.log(serviceData)

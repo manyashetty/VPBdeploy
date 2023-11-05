@@ -15,6 +15,7 @@ const router = (0, express_1.Router)();
 router.get('/services', service_controller_1.getServices);
 // router.post('/services', upload, createService); 
 router.post('/services', service_controller_1.createService);
+router.get('/services/:id', service_controller_1.getServiceById);
 router.put('/services/:id', service_controller_1.updateService);
 router.delete('/services/:id', service_controller_1.deleteService);
 router.get('/social-feed', social_feed_controller_1.getSocialfeed);

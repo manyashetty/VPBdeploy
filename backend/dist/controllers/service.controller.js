@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteService = exports.updateService = exports.createService = exports.getServices = void 0;
+exports.deleteService = exports.updateService = exports.createService = exports.getServiceById = exports.getServices = void 0;
 const service_model_js_1 = __importDefault(require("../models/service.model.js"));
 const auth_middleware_js_1 = require("../routes/auth.middleware.js");
 // import multerConfig from "../routes/mutler.js";
@@ -29,6 +29,25 @@ const getServices = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getServices = getServices;
+const getServiceById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const serviceId = req.params.id;
+        const service = yield service_model_js_1.default.findById(serviceId);
+        if (service) {
+            console.log(service);
+            res.status(200).json(service);
+        }
+        else {
+            const allServices = yield service_model_js_1.default.find();
+            res.status(404).json({ error: "Service not found", allServices: allServices });
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+exports.getServiceById = getServiceById;
 exports.createService = [auth_middleware_js_1.authenticateJWT, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const serviceData = req.body;
         console.log(serviceData);

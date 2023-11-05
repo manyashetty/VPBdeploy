@@ -1,11 +1,26 @@
 import React from 'react';
-
+import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import "./Navbar.css";
 import logo from "../assets/Icon.png";
+import axios from 'axios';
 
 export const Navbar = () => {
+  const [services, setServicesNames] = useState([]);
+
+  useEffect(() => {
+  
+    axios.get('http://localhost:3000/api/services')
+    .then((response) => {
+      setServicesNames(response.data); 
+    })
+    .catch((error) => {
+      console.error('Error fetching Service Names:', error);
+    });
+  },[]);
+
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-dark-blue ">
@@ -24,15 +39,15 @@ export const Navbar = () => {
                 <a className="nav-link active text-white" href="/about">About</a>
               </li>
 
-
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">Services</a>
                 <ul className="dropdown-menu">
-            <li><a className="dropdown-item" href="/ui">UI/UX </a></li>
-            <li><a className="dropdown-item" href="/softdev">SOFTWARE DEV</a></li>
-            <li><a className="dropdown-item" href="/digimark">DIGITAL MARKETING</a></li>
-            <li><a className="dropdown-item" href="/vidpro">VIDEO PRODUCTION</a></li>
-          </ul>
+                  {services.map(service => (
+                    <li key={service.id}>
+                      <a className="dropdown-item" href={`/services/${service._id}`}>{service.name}</a>
+                    </li>
+                  ))}
+                </ul>
               </li>
 
               <li className="nav-item">
