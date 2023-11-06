@@ -6,6 +6,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 export interface CustomRequest extends Request {
   userId?: any;
+  image?: String;
 }
 
 export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFunction) => {

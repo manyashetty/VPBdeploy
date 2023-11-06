@@ -11,14 +11,21 @@ const user_controller_1 = require("./controllers/user.controller");
 const auth_middleware_2 = require("./routes/auth.middleware");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
+const path_1 = __importDefault(require("path"));
+// import {upload} from './routes/mutler';
+// import multer, { Multer } from 'multer';
+const Bucket_1 = require("./Bucket");
 dotenv_1.default.config();
 // require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
 const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
+const MongoDB = process.env.MONGODB_URL;
 const app = (0, express_1.default)();
 const port = 3000;
 app.use(express_1.default.json());
-mongoose_1.default.connect('mongodb+srv://manu12shetty:tara12shetty@cluster0.6qcysms.mongodb.net/test')
+app.use((0, cors_1.default)({ origin: 'http://localhost:3001' }));
+mongoose_1.default.connect(MongoDB)
     .then(() => {
     console.log('Connected to MongoDB');
 })
@@ -48,6 +55,30 @@ app.post('/refresh-token', (req, res) => {
 });
 app.use('/projects', auth_middleware_2.authenticateJWT, service_routes_1.default);
 app.use('/auth', auth_middleware_1.default);
+// app.use('/upload', upload);
+app.post('/upload', Bucket_1.upload.single('file'), (req, res) => {
+    if (!req.file) {
+        console.log(req.file);
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+    const params = {
+        Bucket: process.env.WASABI_BUCKET,
+        Key: `${Date.now()}_${path_1.default.basename(req.file.originalname)}`,
+        Body: req.file.buffer,
+        ACL: 'public-read', // Set ACL to public-read for public access
+    };
+    // Upload the file to the Wasabi S3 bucket
+    Bucket_1.s3.upload(params, (error, data) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).json({ error: 'File upload failed' });
+        }
+        const expirationTimeInSeconds = 360 * 60 * 60;
+        const fileKey = params.Key;
+        const fileUrl = Bucket_1.s3.getSignedUrl('getObject', { Bucket: params.Bucket, Key: fileKey, Expires: expirationTimeInSeconds });
+        res.json({ key: fileKey, url: fileUrl });
+    });
+});
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

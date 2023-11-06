@@ -1,0 +1,46 @@
+.col-lg-11 {
+    background-size: cover;
+    background-image: url("../images/bg3.jpg");
+    height: 300px;
+    padding: 90px;
+    color: rgb(55, 55, 52);
+    position: relative;
+}
+
+.col-lg-11::before,
+.col-lg-11::after {
+    content: "";
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 20;
+    width: 50px;
+    height: 50px; 
+}
+
+.col-lg-11::before {
+    background-image: url("../images/Organizing\ projects-rafiki.png");
+    margin-left: 65px;
+    width:45px;
+    height:25px;
+    margin-left: 2px;
+    top:200px;
+}
+.col-lg-11::after {
+    background-image: url("../images/girl.jpeg");
+    width:45px;
+    height: 30px;
+    top:300px
+
+}
+.contact-details {
+    margin-left:30px;
+} 
+.contact-heading1{
+    margin-left: 90px;
+    color:grey;
+}
+.form {
+    display: flex;
+    align-items: flex-start;
+  }

@@ -1,0 +1,22 @@
+.contact {
+    background-color:rgba(14, 95, 224, 0.9);
+    padding: 50px 0;
+    text-align: center;
+
+  }
+.card{
+  max-width: 40rem;
+
+  background-color: rgba(159, 182, 219, 0.9);
+
+}
+
+.card .btn {
+  width: 150px; 
+  height: 50px;
+  font-size: 14px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}

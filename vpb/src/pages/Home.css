@@ -1,0 +1,122 @@
+/* CSS for screens with a width of 768px and below (typical mobile phones) */
+@media (max-width: 768px) {
+  .hero {
+    background-size: cover; /* Ensure the background covers the entire viewport */
+    text-align: center;
+  }
+
+  #heading {
+    font-size: 2.5rem; /* Reduce the font size for better readability */
+  }
+
+  #banner-text {
+    max-width: 80%; /* Increase the text width for smaller screens */
+    font-size: 1rem; /* Adjust the font size for better readability */
+  }
+
+  .btn {
+    font-size: 1rem; /* Adjust the button font size for mobile screens */
+    margin-left: 0; /* Remove the left margin for the button */
+  }
+
+  .margin-left {
+    margin-left: 0; /* Remove the left margin for the text */
+  }
+
+  .content-1, .content-2 {
+    padding: 10px; /* Reduce padding for better spacing on mobile screens */
+  }
+
+  #hval {
+    font-size: 1.5rem; /* Adjust the heading font size for smaller screens */
+  }
+}
+
+
+/* Apply a static banner background image */
+.hero {
+  /* background-image: url('../images/rr.jpg'); */
+  /* background-size: cover; */
+  /* background-attachment: fixed;  */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+ 
+  text-align: center;
+  color: #fff;
+}
+/* 
+.content-container {
+  position: relative;
+  height: 100vh;
+} */
+
+.background-image {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.hero-content{
+  text-align: left;
+
+
+}
+#heading{
+  text-align: left;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size:4.8rem;
+color: aqua;
+}
+#banner-text{
+  text-align: left;
+  max-width: 37%; 
+  word-wrap: break-word; 
+  font-size: 1.25rem; 
+}
+.btn {
+  font-size: 1.5rem;
+margin-left: 90px;
+}
+.margin-left {
+  margin-left: 90px; 
+}
+.content-1, .content-2 {
+  text-align: center;
+  background-color: #0d425c; 
+  color: #fff; /* Text color for better readability */
+  padding: 20px;
+}
+#hval{
+  text-align: center;
+}
+
+ .testimonials {
+
+  color: #0e0000; /* Text color for better readability */
+  padding: 20px;
+}
+
+  
+.services {
+
+  padding: 40px;
+}
+
+.projects{
+  padding:40px ;
+}
+
+.testimonials {
+
+  padding: 20px;
+ 
+}
+
+
+html {
+  scroll-behavior: smooth;
+}

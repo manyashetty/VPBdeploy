@@ -1,0 +1,15 @@
+.testimonials {
+    background-color: #fff;
+    padding: 50px 0;
+    text-align: center;
+    /* Add more styling as needed */
+  }
+  /* .img-thumbnail{
+    height: 150px;
+    width: 100px;
+  } */
+  #pic{
+    height: 280px;
+    width: 390px;
+    float: right;
+  }

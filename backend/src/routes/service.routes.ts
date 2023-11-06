@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   getServices,
+  getServiceById,
   createService,
   updateService,
   deleteService,
@@ -25,15 +26,20 @@ import {
   createProject,
   updateProject,
   deleteProject,
+  getProjectById,
 } from '../controllers/project.controller';
+
+
 import authenticateJWT from './auth.middleware';
 import {createContact} from '../controllers/contact-us.controller' ;
-
+// import {upload} from './mutler';
 
 const router = Router();
 
 router.get('/services', getServices);
-router.post('/services', createService);
+// router.post('/services', upload, createService); 
+router.post('/services',  createService); 
+router.get('/services/:id',getServiceById)
 router.put('/services/:id', updateService);
 router.delete('/services/:id', deleteService);
 
@@ -43,6 +49,7 @@ router.put('/social-feed/:id', updateSocialfeed);
 router.delete('/social-feed/:id', deleteSocialfeed);
 
 router.get('/project', getProject);
+router.get('/project/:id',getProjectById)
 router.post('/project', authenticateJWT, createProject);
 router.put('/project/:id',authenticateJWT, updateProject);
 router.delete('/project/:id', deleteProject);
@@ -53,4 +60,5 @@ router.put('/testimonial/:id', updateTestimonial);
 router.delete('/testimonial/:id', deleteTestimonial);
 
 router.post('/contact',createContact)
+
 export default router;

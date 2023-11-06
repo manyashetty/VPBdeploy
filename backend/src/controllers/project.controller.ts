@@ -13,6 +13,24 @@ export const getProject = async (req: Request, res: Response) => {
   }
 };
 
+export const getProjectById = async (req: Request, res: Response) => {
+  try {
+    const projectId = req.params.id;
+
+    const project = await ProjectModel.findById(projectId);
+
+    if (project) {
+      console.log(project);
+      res.status(200).json(project);
+    } else {
+      const allProjects = await ProjectModel.find();
+      res.status(404).json({ error: "Project not found", allProjects: allProjects });
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 export const createProject = [authenticateJWT, async (req: CustomRequest, res: Response) => {
  
