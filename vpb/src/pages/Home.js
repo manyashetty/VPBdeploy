@@ -12,6 +12,7 @@ export const Home = () => {
       
       <section className="hero">
         <div className="hero-content">
+          
           <h1 id='heading'>Turn Visions
           <br />
         <span class="margin-left">into Reality !!</span>

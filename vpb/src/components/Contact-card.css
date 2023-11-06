@@ -12,15 +12,11 @@
 }
 
 .card .btn {
-  width: 120px; 
-  height: 30px;
+  width: 150px; 
+  height: 50px;
   font-size: 14px; 
   display: flex;
   justify-content: center;
   align-items: center;
 
-}
-.button{
-  margin-top: 10px;
-  align-items: center;
 }

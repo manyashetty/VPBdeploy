@@ -36,7 +36,7 @@ export const Navbar = () => {
                 <a className="nav-link active text-white" href="/">Home</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active text-white" href="/about">About</a>
+                <a className="nav-link active text-white" href="/aboutus">About Us</a>
               </li>
 
               <li className="nav-item dropdown">
@@ -54,7 +54,7 @@ export const Navbar = () => {
                 <a className="nav-link active text-white" href="/project">Projects</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active text-white" href="/contact">Contact</a>
+                <a className="nav-link active text-white" href="/contactus">Contact Us</a>
               </li>
             </ul>
           </div>

@@ -45,7 +45,7 @@ const ServicePage = () => {
         <img src={serimg} alt="serimg" className="serimg" />
         </div>
       </div>
-      <div className="row">
+      <div className="row" id="bkg">
        <div className="col-md-6 col-sm-12">
        <ContactCard/>
        </div>

@@ -35,8 +35,8 @@
 
 /* Apply a static banner background image */
 .hero {
-  background-image: url('../images/rr.jpg');
-  background-size: cover;
+  /* background-image: url('../images/rr.jpg'); */
+  /* background-size: cover; */
   /* background-attachment: fixed;  */
   height: 100vh;
   display: flex;
@@ -45,8 +45,25 @@
   text-align: center;
   color: #fff;
 }
+/* 
+.content-container {
+  position: relative;
+  height: 100vh;
+} */
+
+.background-image {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .hero-content{
   text-align: left;
+
+
 }
 #heading{
   text-align: left;

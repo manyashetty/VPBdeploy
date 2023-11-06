@@ -1,7 +1,7 @@
 .proimg {
     float: left; /* Float the image to the right side of the page */
     max-width: 380px; /* Adjust the maximum width as needed */
-margin-left: 60px;
+margin-left: 0px;
     height: 450px;
     margin-top: -10px;
   }
@@ -27,10 +27,39 @@ margin-left: 60px;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
- 
-.serimg{
-  float: right; 
-  max-width: 380px; /* Adjust the maximum width as needed */
-margin-left: 60px;
-margin-top: -10px;
-}
+
+.background {
+    position: absolute;
+    background-color: #e6cfe7cc;
+    /* background-color: rgba(14, 95, 224, 0.9); */
+    z-index: -1;
+    padding:0px;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%; 
+    height: 150vh;
+  }
+  svg {
+    position: absolute;
+    top: 0;
+    left: 100;
+    /* width: 100%;
+    height: 100%; */
+    transform: scaleY(2) scaleX(1);
+    transform-origin: bottom;
+    box-sizing: border-box;
+    display: block;
+    pointer-events: none;
+  }
+  .serimg{
+    float: right;
+    max-width: 380px; /* Adjust the maximum width as needed */
+margin-left: 0px;
+    height: 450px;
+    margin-top: -10px;
+  }
+  #bkg{
+    background-color: #e6cfe7cc;
+
+  }
